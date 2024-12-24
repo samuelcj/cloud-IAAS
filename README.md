@@ -1,47 +1,84 @@
-#### This Repo is for Cloud as Infrastructure As A Service (IAAS) 
-#### Here is a breakdown of the staps taken to acheive the Deployment of a Java Gradle App on an Ubuntu Server and connect to it from The Browser.
+# Cloud Infrastructure as a Service (IaaS)
 
-Activities Done.
+This repository contains resources and steps to deploy a Java Gradle application on an Ubuntu server and access it via a browser.
 
-1. Install Ubuntu Server (I used the windows WSL)
+## Deployment Steps
 
-2. Download Java Version 8 into it
- sudo apt install openjdk-8-jre-headless
+### 1. Install Ubuntu Server
+- Install Ubuntu Server. For this example, Windows Subsystem for Linux (WSL) was used.
 
-3. Use a jar file for an application to build and start it on the server.
-This is a Gradle project.
+### 2. Install Java 8
+Run the following command to install Java 8 on the server:
+```bash
+sudo apt install openjdk-8-jre-headless
+```
 
-i. clone the project
+### 3. Deploy the Java Gradle Application
+
+#### Step 1: Clone the Project
+Clone the repository containing the Java Gradle application:
+```bash
 git clone git@github.com:samuelcj/java-gradle-app.git
+```
 
-ii. Execute the gradle command in the root clone directory
-.gradlew build
+#### Step 2: Build the Application
+Navigate to the cloned project directory and build the application using Gradle:
+```bash
+./gradlew build
+```
 
-iii. Copy the built artifact from the local to the remote server using scp
-scp build/libs/bootcamp-java-project-1.0-SNAPSHOT.jar samuelcj@<server IP>:/home/cloud-iaas/
+#### Step 3: Transfer the Built Artifact to the Server
+Use the `scp` command to copy the built JAR file to the remote server:
+```bash
+scp build/libs/bootcamp-java-project-1.0-SNAPSHOT.jar samuelcj@<server-IP>:/home/cloud-iaas/
+```
 
-iv. Then execute your java command to run the application on the remote.
+#### Step 4: Run the Application
+Log in to the server and execute the JAR file:
+```bash
 java -jar bootcamp-java-project-1.0-SNAPSHOT.jar
+```
 
-v. Take Note of the port the server is running, for this application, the Tomcat is running on 8080
+#### Step 5: Verify the Application
+- Note the port the server is running on (default is 8080 for Tomcat).
+- Ensure the firewall allows access to the port.
+- Access the application in your browser using the server's IP and port, e.g., `http://<server-IP>:8080`.
 
-vi. confirm that you allow the port to be accessible from your firewall rule.
+For WSL, access via localhost:
+```
+http://127.0.0.1:8080
+```
+You should see the application UI displaying team members and their roles.
 
-vii. Then check on your browser for the application:
-<ip address>:8080.
-for mine on my ubuntu wsl server i used: 127.0.0.1:8080 (representing my local host)
-
-You should get the application UI showing you Team Members and their roles.
-
-viii. You can decide to run the application in the background so you can use your terminal for other purposes 
+#### Step 6: Run the Application in the Background
+To free your terminal for other tasks, run the application in the background:
+```bash
 java -jar bootcamp-java-project-1.0-SNAPSHOT.jar &
+```
 
-ix. To confirm the process is still running.
+#### Step 7: Confirm the Application is Running
+Check if the process is still running:
+```bash
 ps aux | grep java
+```
+Alternatively, use `netstat` to list active internet connections:
+```bash
+netstat -lpnt
+```
 
-x. You can also use the "netstat" utility to confim the running process. by running:
-netstat -lpnt   =>> This will list the servers that have active internet connection.
+#### Step 8: Stop the Application
+To terminate the application, use the `kill` command:
+```bash
+kill -9 <process-ID>
+```
 
-xi. You can kill the process using
-kill -9 <process id>
+---
+
+## Key Notes
+- Ensure proper firewall rules are configured to allow traffic to the application port.
+- Monitor server performance to optimize resource usage.
+
+# Infrastructure as a Service (IaaS)
+This guide demonstrates the setup of a basic IaaS environment for deploying a Java application.
+
 
